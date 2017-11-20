@@ -1,0 +1,38 @@
+[
+  {
+    "name": "A",
+    "phoneNumber": "01085321321",
+    "location": [
+      13.321231,
+      123.1231232
+    ],
+    "properties": [
+      5.0,
+      5.0,
+      5.0,
+      5.0,
+      5.0,
+      5.0,
+      5.0
+    ],
+    "favoriteCafeIndex": 0
+  },
+  {
+    "name": "B",
+    "phoneNumber": "01085213212",
+    "location": [
+      13.2312312,
+      123.32321321
+    ],
+    "properties": [
+      5.0,
+      5.0,
+      5.0,
+      6.0,
+      5.0,
+      5.0,
+      5.0
+    ],
+    "favoriteCafeIndex": 0
+  }
+]

@@ -63,7 +63,7 @@ public class Info<T> {
 		
 	}
 	
-	public void writeJsonWith(T value) {
+	public void writeJsonWith(ArrayList<T> values) {
 		try {
 			
 			// read json file to find out overlapped value
@@ -77,7 +77,7 @@ public class Info<T> {
 			FileWriter writer = new FileWriter(file);
 			gson = new GsonBuilder().setPrettyPrinting().create();
 			
-			gson.toJson(value, writer);
+			gson.toJson(values, writer);
 
 			writer.close();
 			

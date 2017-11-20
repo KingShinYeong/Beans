@@ -26,9 +26,7 @@ public class FileControl {
 		
 		Info<User> info_1 = new Info<User>("./test.json");
 		
-		for(int i=0; i<userList.size(); i++) {
-			info_1.writeJsonWith(userList.get(i));
-		}
+		info_1.writeJsonWith(userList);
 		
 		System.out.println("user list is stored into file");
 	}
