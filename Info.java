@@ -65,12 +65,14 @@ public class Info<T> {
 	
 	public void writeJsonWith(T value) {
 		try {
+			
+			// read json file to find out overlapped value
+			/*
 			FileInputStream stream = new FileInputStream(file);
 			JsonReader reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
 			JsonParser parser = new JsonParser();
 			parser.parse(reader);
-			
-		
+			*/
 
 			FileWriter writer = new FileWriter(file);
 			gson = new GsonBuilder().setPrettyPrinting().create();
