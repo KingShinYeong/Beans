@@ -9,18 +9,17 @@ import java.io.*;
 public class Info {
 	private File file;
 
-	FileInputStream inputStream;
-	FileOutputStream outputStream;
-	JsonReader reader;
-	JsonWriter writer;
-	JsonParser parser;
+	private FileInputStream inputStream;
+	private FileOutputStream outputStream;
+	private JsonReader reader;
+	private JsonWriter writer;
+	private JsonParser parser;
 	
-	JsonElement tree;
-	JsonArray array;
-	JsonObject object;
-	JsonElement element;
-	
-	
+	private JsonElement tree;
+	private JsonArray array;
+	private JsonObject object;
+	private JsonElement element;
+
 	private Gson gson;
 	
 	public Info() {
@@ -33,6 +32,21 @@ public class Info {
 			file.createNewFile();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void parse() {
+		try {
+			inputStream = new FileInputStream(file);
+			reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"));
+			parser = new JsonParser();
+			
+			tree = parser.parse(reader);
+			
+			inputStream.close();
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -72,14 +86,8 @@ public class Info {
 			boolean found=false;
 			JsonElement cafeElement = null;
 			
-			inputStream = new FileInputStream(file);
-			reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"));
-			parser = new JsonParser();
+			parse();
 			
-			tree = parser.parse(reader);
-			
-			inputStream.close();
-
 			outputStream = new FileOutputStream(file, false);
 			writer = new JsonWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 			
@@ -154,14 +162,8 @@ public class Info {
 			boolean found=false;
 			JsonElement userElement = null;
 			
-			inputStream = new FileInputStream(file);
-			reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"));
-			parser = new JsonParser();
+			parse();
 			
-			tree = parser.parse(reader);
-			
-			inputStream.close();
-
 			outputStream = new FileOutputStream(file, false);
 			writer = new JsonWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 			
