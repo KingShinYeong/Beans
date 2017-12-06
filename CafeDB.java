@@ -1,61 +1,77 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+package com.example.hh.beans;
+
+import android.content.res.AssetManager;
+
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class CafeDB {
-	ArrayList<Cafe> cafeDB;
-	
-	CafeDB() throws Exception{
-		cafeDB = new ArrayList<Cafe>();
-		
-		File cafeFile = new File("cafeDB.txt");
-		//File coffeeFile = new File("coffeeDB.txt"); // 커피 DB도 같이 읽어서 카페에 추가
-		FileInputStream cafe_fis = new FileInputStream(cafeFile);
-		
-		if(cafeFile.exists()) {
-			BufferedReader bufrd = new BufferedReader(new InputStreamReader(cafe_fis));
-			
-			String str;
-			String buf[] = new String[10]; // 속성 7가지 + 위도/경도/ 이름
+    ArrayList<Cafe> cafeDB;
 
-			str = bufrd.readLine();
-			
-			
-			while(str != null) {
-				buf = str.split("/");
-				Cafe c = new Cafe(buf);	
-				
-				cafeDB.add(c);
-				
-				str = bufrd.readLine();
-			}
-			
-			bufrd.close();
-			cafe_fis.close();
-		}
-	}
-	
-	public void addCafe(Cafe c) {
-		cafeDB.add(c);
-	}
-	
-	public void printAll() {
-		for(int inx = 0 ; inx < cafeDB.size(); inx ++) {
-			printCafe(inx);
-		}
-	}
-	
-	public void printCafe(int index) {
-		System.out.println(cafeDB.get(index).getInfoCafe());
-	}
-	
-	public int getCafeNum() {
-		return cafeDB.size();
-	}
-	
-	public Cafe getCafe(int index) {
-		return cafeDB.get(index);
-	}
+    CafeDB(){
+        cafeDB = new ArrayList<Cafe>();
+    }
+    CafeDB(AssetManager am, User u){
+        cafeDB = new ArrayList<Cafe>();
+
+        Info info = new Info(am,"cafeDB.json");
+
+        cafeDB = info.readCafeListWith(u.getLocation());
+    }
+
+    public void addCafe(Cafe c) {
+        cafeDB.add(c);
+    }
+
+    public void printAll() {
+        for(int inx = 0 ; inx < cafeDB.size(); inx ++) {
+            printCafe(inx);
+        }
+    }
+
+    public ArrayList<Cafe> getCafebyAge(int age) {
+        ArrayList<Cafe> cafebyAge = new ArrayList<Cafe>();
+        ArrayList<Integer> agePreference = new ArrayList<>();
+        int limit;
+
+        if(getCafeNum() > 10) {
+            limit = 3;
+        }else {
+            limit = 1;
+        }
+
+        for(int inx = 0; inx < getCafeNum(); inx ++){
+            agePreference.add(cafeDB.get(inx).getCustomersByAge()[age]);
+        }
+
+        ArrayList<Integer> buf = (ArrayList<Integer>) agePreference.clone();
+        Collections.sort(buf);
+        Collections.reverse(buf);
+
+        int index[] = new int[limit];
+
+        for(int inx = 0; inx < limit; inx ++) {
+            index[inx] = agePreference.indexOf(buf.get(inx));
+            agePreference.set(index[inx], 0);
+        }
+
+        for(int inx = 0; inx < limit; inx++){
+            cafebyAge.add(cafeDB.get(index[inx]));
+        }
+
+        return cafebyAge;
+    }
+
+
+    public void printCafe(int index) {
+        System.out.println(cafeDB.get(index).getInfoCafe());
+    }
+
+    public int getCafeNum() {
+        return cafeDB.size();
+    }
+
+    public Cafe getCafe(int index) {
+        return cafeDB.get(index);
+    }
 }
